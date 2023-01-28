@@ -1,0 +1,207 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: p1
+  template:
+    metadata:
+      labels:
+        app: p1
+    spec:
+      containers:
+       - image: sangameshwar18/discovery-server
+         name: p1
+         ports:
+           - containerPort: 8761
+         env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: psltest
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgresql:5432/northwind?useSSL=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: create
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: p2
+  template:
+    metadata:
+      labels:
+        app: p2
+    spec:
+      containers:
+       - image: sangameshwar18/gateway-microservice
+         name: p2
+         ports:
+           - containerPort: 8089
+         env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: psltest
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgresql:5432/northwind?useSSL=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: create
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: p3
+  template:
+    metadata:
+      labels:
+        app: p3
+    spec:
+      containers:
+       - image: sangameshwar18/booking-service
+         name: p3
+         ports:
+           - containerPort: 8060
+         env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: psltest
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgresql:5432/northwind?useSSL=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: create
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: p4
+  template:
+    metadata:
+      labels:
+        app: p4
+    spec:
+      containers:
+       - image: sangameshwar18/fare-service
+         name: p4
+         ports:
+           - containerPort: 8081
+         env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: psltest
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgresql:5432/northwind?useSSL=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: create
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p5
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: p5
+  template:
+    metadata:
+      labels:
+        app: p5
+    spec:
+      containers:
+       - image: sangameshwar18/flight-search-microservice
+         name: p5
+         ports:
+           - containerPort: 8090
+         env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: psltest
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgresql:5432/northwind?useSSL=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: create
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p6
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: p6
+  template:
+    metadata:
+      labels:
+        app: p6
+    spec:
+      containers:
+       - image: sangameshwar18/user-service
+         name: p6
+         ports:
+           - containerPort: 8099
+         env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: psltest
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgresql:5432/northwind?useSSL=false
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: create
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  labels:
+    app: postgresql
+    tier: database
+spec:
+  selector:
+    matchLabels:
+      app: postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: postgresql
+        tier: database
+    spec:
+      containers:
+        - name: postgresql
+          image: postgres:12
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: POSTGRES_DB
+              value: northwind
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: psltest
+          ports:
+            - containerPort: 5432
+              name: postgresql

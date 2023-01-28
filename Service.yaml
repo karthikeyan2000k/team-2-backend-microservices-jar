@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: s1
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8761
+      targetPort: 8761
+  selector:
+    app: p1
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: s2
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8089
+      targetPort: 8089
+  selector:
+    app: p2
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: s3
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8060
+      targetPort: 8060
+  selector:
+    app: p3
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: s4
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8081
+      targetPort: 8081
+  selector:
+    app: p4
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: s5
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8090
+      targetPort: 8090
+  selector:
+    app: p5
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: s6
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8099
+      targetPort: 8099
+  selector:
+    app: p6
+  type: NodePort
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  labels:
+    app: postgresql
+    tier: database
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: postgresql
+    tier: database
